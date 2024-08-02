@@ -1,0 +1,101 @@
+<div class="card">
+    <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="field">
+            <label for="fullName">Full Name:</label>
+            <input id="fullName" formControlName="fullName" />
+
+            @if(fullName.invalid && fullName.touched && fullName.errors?.['required'])
+            {
+            <div class="error-text">Full name is required</div>
+            }
+        </div>
+        <div class="field">
+            <label for="email">Email:</label>
+            <input id="email" formControlName="email" />
+
+            @if(email.invalid && email.touched)
+            {
+            @if(email.errors?.['required'])
+            {
+            <div class="error-text">Email is required</div>
+            }
+            @if(email.errors?.['email'])
+            {
+            <div class="error-text">Email is invalid</div>
+            }
+            }
+        </div>
+        <div class="field">
+            <label for="password">Password:</label>
+            <input type="password" id="password" formControlName="password" />
+            @if(password.invalid && password.touched)
+            {
+            @if(password.errors?.['required']) {
+            <div class="error-text">Password is required</div>
+            }
+            @if(password.errors?.['minlength']) {
+            <div class="error-text">Password must be 8 characters at least</div>
+            }
+            }
+        </div>
+        <div class="field">
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" formControlName="confirmPassword" />
+
+            @if(confirmPassword.invalid && confirmPassword.touched && confirmPassword.errors?.['required'])
+            {
+            <div class="error-text">Password is required</div>
+            }
+
+            @if(registerForm.invalid && confirmPassword.touched && registerForm.errors?.["mismatch"])
+            {
+            <div class="error-text">Passwords don't match</div>
+            }
+        </div>
+        <ng-container class="field" formGroupName="address">
+            <div class="field">
+                <label for="city">City:</label>
+                <input id="city" formControlName="city" />
+                @if(city.invalid && city.touched && city.errors?.['required'])
+                {
+                <div class="error-text">Full name is required</div>
+                }
+            </div>
+            <div class="field">
+                <label for="street">Street:</label>
+                <input id="street" formControlName="street" />
+                @if(street.invalid && street.touched && street.errors?.['required'])
+                {
+                <div class="error-text">Full name is required</div>
+                }
+            </div>
+        </ng-container>
+        <div class="field" formArrayName="phones">
+            <label for="phones">Phone Numbers:</label>
+            <div *ngFor="let phone of phones.controls; let i = index">
+                <input [formControlName]="i" />
+                <button type="button" (click)="removePhone(i)">Remove</button>
+                @if(phones.controls[i].invalid && phones.touched)
+                {
+                @if(phones.controls[i].errors?.['required']) {
+                <div class="error-text">Phone number is required</div>
+                }
+                @if(phones.controls[i].errors?.['pattern']) {
+                <div class="error-text">Only numbers alowed</div>
+                }
+                @if(phones.controls[i].errors?.['minlength']) {
+                <div class="error-text">phone number must be 5 numbers atleast</div>
+                }
+                }
+            </div>
+            <button type="button" (click)="addPhone()">Add Phone</button>
+        </div>
+
+        <div class="field">
+            <button type="submit">Register</button>
+        </div>
+    </form>
+    <div class="field">
+        <a routerLink="/">login</a>
+    </div>
+</div>

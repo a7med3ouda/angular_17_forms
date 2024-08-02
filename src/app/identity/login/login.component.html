@@ -1,0 +1,32 @@
+<div class="card">
+  <form class="form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+    <div class="field">
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" [(ngModel)]="user.email" required />
+
+      @if(loginForm.controls['email'] && loginForm.controls['email'].errors?.['required'] &&
+      (loginForm.controls['email'].touched ||
+      loginForm.submitted))
+      {
+      <div class="error-text">Email is required</div>
+      }
+    </div>
+    <div class="field">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" [(ngModel)]="user.password" required />
+
+      @if(loginForm.controls['password'] && loginForm.controls['password'].errors?.['required'] &&
+      (loginForm.controls['password'].touched ||
+      loginForm.submitted))
+      {
+      <div class="error-text">Email is required</div>
+      }
+    </div>
+    <div class="field">
+      <button type="submit">Login</button>
+    </div>
+  </form>
+  <div class="field">
+    <a routerLink="/register">Register</a>
+  </div>
+</div>
